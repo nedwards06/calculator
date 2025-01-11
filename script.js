@@ -2,6 +2,7 @@ let currentDisplay = '0';
 let num1 = 0;
 let num2 = 0;
 let operator = '';
+let equalAlready = false;
 
 
 //call functions to handle operator press
@@ -39,8 +40,17 @@ document.getElementById('clear').addEventListener('click', (event) => {
 
 
 function numberPress(num) {
-    currentDisplay === '0' ? currentDisplay = num : currentDisplay += num;
+
+    //start over if equal has already been pushed; else append
+    if (equalAlready) {
+        currentDisplay = num;
+    } else {
+        currentDisplay === '0' ? currentDisplay = num : currentDisplay += num;
+    }
+  
     document.getElementById('display').textContent = currentDisplay;
+
+
 }
 
 function operatorPress(op) {
@@ -66,6 +76,12 @@ function operatorPress(op) {
 
 function equalPress() {
     
+    //don't do anything if the user hasn't pressed an
+    //operator button yet
+    if (!operator) {
+        return;
+    }
+
     //store current number
     num2 = Number(currentDisplay);
 
@@ -76,9 +92,13 @@ function equalPress() {
     document.getElementById('display').textContent = currentDisplay;
 
     //reset starting values in preparation for another number press
-    num1 = '0';
+    num1 = currentDisplay;
     num2 = '0';
     operator = '';
+    
+    //remember that equals has been pushed so that if the user pushes 
+    //another number at this point, we start over with that new number
+    equalAlready = true;
 }
 
 function clearPress() {
@@ -86,9 +106,9 @@ function clearPress() {
     num2 = '0';
     operator = '';
     currentDisplay = '0';
+    equalAlready = false;
     document.getElementById('display').textContent = currentDisplay;
 }
-
 
 function operate (n1, n2, op) {
     switch(op) {
