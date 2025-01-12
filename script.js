@@ -1,8 +1,79 @@
-let currentDisplay = '0';
+let currDisplay = '0';
 let num1 = 0;
 let num2 = 0;
 let operator = '';
-let equalAlready = false;
+
+const BUILDING_FIRST_NUMBER = 1;
+const BUILDING_SECOND_NUMBER = 2;
+
+let currStatus = BUILDING_FIRST_NUMBER;
+
+function processInput(input) {
+    switch (input) {
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+            // process a number
+            // if we're at 0 or building 2nd num, 
+            // replace it with the number pressed
+            if (currDisplay === '0' || currStatus === BUILDING_SECOND_NUMBER) {
+                
+                //store input and use it to replace current display
+                currDisplay = input;                
+                document.getElementById('display').textContent = currDisplay;
+
+            } else { 
+
+                //append number pressed to display
+                currDisplay += input;
+                document.getElementById('display').textContent = currDisplay;
+            }
+            break;
+        case '+':
+        case '-':
+        case '/':
+        case '*':
+            operator = input;
+
+            if (currStatus === BUILDING_FIRST_NUMBER) {
+                num1 = currDisplay;
+                currStatus = BUILDING_SECOND_NUMBER;
+            } else {     //assume building the second number
+                num2 = currDisplay;
+                currDisplay = operate(Number(num1), Number(num2), operator);
+                document.getElementById('display').textContent = currDisplay;
+                num1 = currDisplay;
+                num2 = 0;
+                operator = '';
+                currStatus = BUILDING_FIRST_NUMBER;
+            }
+           break;
+        case '=':
+            
+            if (currStatus === BUILDING_FIRST_NUMBER) {
+                break;
+            } else {    //assume I have an operator
+                num2 = currDisplay;
+                currDisplay = operate(Number(num1), Number(num2), operator);
+                document.getElementById('display').textContent = currDisplay;
+                num1 = currDisplay;
+                num2 = 0;
+                operator = '';
+                currStatus = BUILDING_FIRST_NUMBER;
+            }
+    }
+}
+
+
+
+
 
 
 //call functions to handle operator press
@@ -46,73 +117,29 @@ document.getElementById('clear').addEventListener('click', (event) => {
 
 function numberPress(num) {
 
-    //start over if equal has already been pushed; else append
-    if (equalAlready) {
-        currentDisplay = num;
-    } else {
-        currentDisplay === '0' ? currentDisplay = num : currentDisplay += num;
-    }
-  
-    document.getElementById('display').textContent = currentDisplay;
-
+    processInput(num);
 
 }
 
 function operatorPress(op) {
 
-    //store operator
-    operator = op;
-    
-    //store current number
-    num1 = Number(currentDisplay);
-        
-    //now that the first number has been stored, update currentDisplay
-    //so that it forgets the first number and is ready to work with
-    //the second number
-    currentDisplay = '';
+    processInput(op);
 
-    //display the HTML divide symbol if '/' is the operator
-    if (op === '/') {
-        op = "&divide";
-    }
-    
-    document.getElementById('display').innerHTML = op;
 }
 
 function equalPress() {
     
-    //don't do anything if the user hasn't pressed an
-    //operator button yet
-    if (!operator) {
-        return;
-    }
+    processInput('=');
 
-    //store current number
-    num2 = Number(currentDisplay);
-
-    //operate on the two numbers
-    currentDisplay = operate(num1, num2, operator);
-    
-    //display result
-    document.getElementById('display').textContent = currentDisplay;
-
-    //reset starting values in preparation for another number press
-    num1 = currentDisplay;
-    num2 = '0';
-    operator = '';
-    
-    //remember that equals has been pushed so that if the user pushes 
-    //another number at this point, we start over with that new number
-    equalAlready = true;
 }
 
 function clearPress() {
     num1 = '0';
     num2 = '0';
     operator = '';
-    currentDisplay = '0';
+    currDisplay = '0';
     equalAlready = false;
-    document.getElementById('display').textContent = currentDisplay;
+    document.getElementById('display').textContent = currDisplay;
 }
 
 function operate (n1, n2, op) {
