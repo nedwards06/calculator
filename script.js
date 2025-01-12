@@ -21,6 +21,11 @@ document.getElementById('/').addEventListener('click', (event) => {
 }
 );
 
+document.getElementById('*').addEventListener('click', (event) => {
+    operatorPress('*');
+}
+);
+
 //call function to handle number press
 for (i=0; i<10; i++) {
     document.getElementById(i).addEventListener('click', (event) => {
