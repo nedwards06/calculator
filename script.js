@@ -2,6 +2,7 @@ let currDisplay = '0';
 let num1 = 0;
 let num2 = 0;
 let operator = '';
+let calculatedDisplay = 1;
 
 const BUILDING_FIRST_NUMBER = 1;
 const BUILDING_SECOND_NUMBER = 2;
@@ -9,6 +10,7 @@ const BUILDING_SECOND_NUMBER = 2;
 let currStatus = BUILDING_FIRST_NUMBER;
 
 function processInput(input) {
+
     switch (input) {
         case '0':
         case '1':
@@ -23,17 +25,20 @@ function processInput(input) {
             // process a number
             // if we're at 0 or building 2nd num, 
             // replace it with the number pressed
-            if (currDisplay === '0' || currStatus === BUILDING_SECOND_NUMBER) {
+            if (calculatedDisplay === 1 || currStatus === BUILDING_SECOND_NUMBER) {
                 
+                //forget the initial display value
+                calculatedDisplay = 0;
+
                 //store input and use it to replace current display
                 currDisplay = input;                
                 document.getElementById('display').textContent = currDisplay;
-
             } else { 
 
                 //append number pressed to display
                 currDisplay += input;
                 document.getElementById('display').textContent = currDisplay;
+                calculatedDisplay = 0;
             }
             break;
         case '+':
@@ -44,6 +49,7 @@ function processInput(input) {
 
             if (currStatus === BUILDING_FIRST_NUMBER) {
                 num1 = currDisplay;
+                calculatedDisplay = 0;
                 currStatus = BUILDING_SECOND_NUMBER;
             } else {     //assume building the second number
                 num2 = currDisplay;
@@ -53,6 +59,7 @@ function processInput(input) {
                 num2 = 0;
                 operator = '';
                 currStatus = BUILDING_FIRST_NUMBER;
+                calculatedDisplay = 1;
             }
            break;
         case '=':
@@ -67,6 +74,7 @@ function processInput(input) {
                 num2 = 0;
                 operator = '';
                 currStatus = BUILDING_FIRST_NUMBER;
+                calculatedDisplay = 1;
             }
     }
 }
@@ -138,8 +146,8 @@ function clearPress() {
     num2 = '0';
     operator = '';
     currDisplay = '0';
-    equalAlready = false;
     document.getElementById('display').textContent = currDisplay;
+    calculatedDisplay = 1;
 }
 
 function operate (n1, n2, op) {
