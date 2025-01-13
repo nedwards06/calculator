@@ -67,7 +67,14 @@ function processInput(input) {
             if (currStatus === BUILDING_FIRST_NUMBER) {
                 break;
             } else {    //assume I have an operator
+
                 num2 = currDisplay;
+
+                if (num2 === '0' && operator === '/') {
+                    alert("Nice try! You can't divide by 0, dummy.");
+                    break;
+                }
+
                 currDisplay = operate(Number(num1), Number(num2), operator);
                 document.getElementById('display').textContent = currDisplay;
                 num1 = currDisplay;
