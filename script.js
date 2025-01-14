@@ -158,15 +158,25 @@ function clearPress() {
 }
 
 function operate (n1, n2, op) {
+    
+    let result = 0;
+
     switch(op) {
         case '+':
-            return add (n1, n2);
+            result = add(n1, n2);
         case '-':
-            return subtract (n1, n2);
+            result = subtract(n1, n2);
         case '*':
-            return multiply (n1, n2);
+            result = multiply(n1, n2);
         case '/':
-            return divide (n1, n2);
+            result = divide(n1, n2);
+    }
+
+    if (result %1 !== 0) {
+        return result.toFixed(2);
+    }
+    else {
+        return result;
     }
 }
 
