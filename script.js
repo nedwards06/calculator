@@ -44,7 +44,7 @@ function processInput(input) {
             }
 
             if (shouldOperate()) {
-                let result = operate(Number(num1), Number(num2), operator);
+                let result = operate(num1, num2, operator);
                 replaceDisplay(result);
             }
 
@@ -65,6 +65,12 @@ function processInput(input) {
                     num2 = currDisplay;
                 }
                 
+                if ((num1 === '0' || num2 === '0') && (operator === '/')) {
+                    alert("You can't divide by zero, dummy!");
+                    clearPress();
+                    break;
+                }
+
                 result = operate(num1, num2, operator);
                 replaceDisplay(result);
                 num1 = currDisplay;
