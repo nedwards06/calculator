@@ -56,7 +56,10 @@ function processInput(input) {
 
         case '=':      
             
-            if (currStep === BUILD_NUM1_NOT_STARTED || currStep === BUILD_NUM1_STARTED) {
+            if (currStep === BUILD_NUM1_NOT_STARTED || 
+                currStep === BUILD_NUM1_STARTED || 
+                num2 === 0 || 
+                operator === '') {
                 break;
             } else {    //assume I have an operator
 
