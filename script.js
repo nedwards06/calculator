@@ -44,6 +44,15 @@ function processInput(input) {
             }
 
             if (shouldOperate()) {
+                
+                //If user pushed an operator after already 
+                //having pushed one without pushing "=",
+                //need to operate based
+                //on current display (second number)
+                if (currStep === BUILD_NUM2_STARTED) {
+                    num2 = currDisplay;
+                }
+                
                 let result = operate(num1, num2, operator);
                 replaceDisplay(result);
             }
@@ -152,7 +161,7 @@ function moveToNextStep(input) {
                 case BUILD_NUM2_STARTED:
                 case DISPLAY_RESULT:
                     currStep = BUILD_NUM2_NOT_STARTED_OP_PRESSED;
-                    break;
+                    break;   
             }
             break;
     }
