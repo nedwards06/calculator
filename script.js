@@ -67,7 +67,7 @@ function processInput(input) {
             
             if (currStep === BUILD_NUM1_NOT_STARTED || 
                 currStep === BUILD_NUM1_STARTED || 
-                num2 === 0 || 
+                currStep === BUILD_NUM2_NOT_STARTED_OP_PRESSED ||
                 operator === '') {
                 break;
             } else {    //assume I have an operator
